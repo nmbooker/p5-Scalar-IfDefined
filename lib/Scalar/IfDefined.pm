@@ -4,9 +4,12 @@ use 5.006;
 use strict;
 use warnings;
 
+use Exporter 'import';
+our @EXPORT_OK = qw/ifdef/;
+
 =head1 NAME
 
-Scalar::IfDefined - The great new Scalar::IfDefined!
+Scalar::IfDefined - Apply block to scalar depending on if it's defined.
 
 =head1 VERSION
 
@@ -19,14 +22,33 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
 
-Perhaps a little code snippet.
 
-    use Scalar::IfDefined;
+    use Scalar::IfDefined qw/ifdef/;
 
-    my $foo = Scalar::IfDefined->new();
-    ...
+    my $hash = {
+        a => 1,
+        b => 2,
+        c => 3,
+        d => {
+            E => 1,
+            F => 2,
+        },
+    };
+
+    ifdef { $_ + 1 } $hash->{a};   # ---> 2
+    ifdef { $_ + 1 } $hash->{missing};    # ---> undef
+    ifdef { $_ + 1 } ifdef { $_->{F} } $hash->{d};  # ---> 3
+    ifdef { $_ + 1 } ifdef { $_->{MISSING} } $hash->{d};  # ---> undef
+
+
+    # Or perhaps with Perl6::Flows
+
+    use Perl6::Flows;
+
+    $hash->{a} 
+        ==> ifdef { $_->{F} }
+        ==> ifdef { $_ + 1 };            # ---> 3
 
 =head1 EXPORT
 
@@ -35,11 +57,21 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 SUBROUTINES/METHODS
 
-=head2 function1
+=head2 ifdef
+
+Takes a block and a scalar value.
+
+If the scalar value is undef, the block is ignored and undef is returned
+straight away.
+
+If the scalar value is defined, then the block is evaluated with $_ as
+the value passed in, and the result of the block is returned.
 
 =cut
 
-sub function1 {
+sub ifdef(&$) {
+    my ($block, $scalar) = @_;
+    return defined($scalar) ? $block->($scalar) : $scalar;
 }
 
 =head2 function2
