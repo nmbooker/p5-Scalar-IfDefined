@@ -22,8 +22,6 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-
-
     use Scalar::IfDefined qw/ifdef/;
 
     my $hash = {
@@ -53,7 +51,9 @@ our $VERSION = '0.01';
 =head1 EXPORT
 
 =over 4
+
 =item ifdef
+
 =back
 
 =head1 SUBROUTINES/METHODS
@@ -72,7 +72,9 @@ the value passed in, and the result of the block is returned.
 
 sub ifdef(&$) {
     my ($block, $scalar) = @_;
-    return defined($scalar) ? $block->($scalar) : $scalar;
+
+    return $scalar if not defined $scalar;
+    return $block->($scalar) for $scalar;
 }
 
 
