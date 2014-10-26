@@ -3,7 +3,7 @@ Scalar-IfDefined
 This is useful for calling a block of code that can only (or it is only useful to)
 be called on a scalar value.
 
-Defines a function 'undef' which takes a block or coderef as the first argument,
+Defines a function 'ifdef' which takes a block or coderef as the first argument,
 and a scalar value as its second.
 
 If the scalar value passed in is undef, then that undef is returned.
