@@ -4,8 +4,10 @@ use 5.006;
 use strict;
 use warnings;
 
+use Scalar::Util qw/blessed reftype/;
+
 use Exporter 'import';
-our @EXPORT_OK = qw/ifdef/;
+our @EXPORT_OK = qw/ifdef $ifdef/;
 
 =head1 NAME
 
@@ -17,8 +19,7 @@ Version 0.04
 
 =cut
 
-our $VERSION = '0.04';
-
+our $VERSION = '0.05';
 
 =head1 SYNOPSIS
 
@@ -54,6 +55,8 @@ our $VERSION = '0.04';
 
 =item ifdef
 
+=item $ifdef
+
 =back
 
 =head1 SUBROUTINES/METHODS
@@ -76,6 +79,60 @@ sub ifdef(&$) {
     return $scalar if not defined $scalar;
     return $block->($scalar) for $scalar;
 }
+
+=head2 $ifdef
+
+Used to dereference a possibly-undef scalar.
+
+If the scalar is undef, returns undef.
+
+If the scalar is an object, the first argument is the method to call, and the
+rest of the arguments are the method arguments.
+
+If the scalar is an array ref, the first argument is used to index into the
+array.
+
+If the scalar is a hash ref, the first argument is used to access the hash.
+
+If the scalar is a code ref, the code ref is run with all the arguments.
+
+As a special case, if the first argument is a code ref, it will be run with the
+scalar as the first argument and the other arguments as the rest. This form
+allows you to use C<$ifdef> on a simple scalar - but you might be better off
+with C<ifdef> itself for that.
+
+The following uses will all return undef if the C<$scalar> is undef, or The
+Right Thing if not.
+
+    # Run "method_name" on $obj, if $obj is defined.
+    $obj->$ifdef("method_name", "argument", "argument");
+
+    # Run $coderef with two arguments if $coderef is defined.
+    $coderef->$ifdef("argument", "argument");
+
+    # Lowercase the zeroth element of the arrayref, or undef if either of those
+    # things is undef.
+    $arrayref->$ifdef(0)->$ifdef(sub { lc });
+
+    # Call "method_name" on $hashref->{object}, or return undef if either of
+    # those is undef
+    $hashref->$ifdef('object')->$ifdef('method_name');
+
+=cut
+
+our $ifdef = sub {
+    my $obj = shift;
+    my ($method, @args) = @_;
+
+    return undef if not defined $obj;
+
+    return $obj->$method(@args)   if blessed $obj or reftype $method eq 'CODE';
+    return $obj->[$method]        if reftype $obj eq 'ARRAY';
+    return $obj->{$method}        if reftype $obj eq 'HASH';
+    return $obj->($method, @args) if reftype $obj eq 'CODE';
+
+    die "Can't getdef on " . reftype $obj;
+};
 
 
 =head1 AUTHOR
