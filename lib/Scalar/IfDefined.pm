@@ -44,10 +44,11 @@ our $VERSION = '0.05';
     # Or perhaps with Perl6::Flows
 
     use Perl6::Flows;
-
-    $hash->{a} 
-        ==> ifdef { $_->{F} }
-        ==> ifdef { $_ + 1 };            # ---> 3
+    my $result = (
+        $hash->{a} 
+            ==> ifdef { $_->{F} }
+            ==> ifdef { $_ + 1 }
+    );            # ---> 3
 
 =head1 EXPORT
 
