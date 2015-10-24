@@ -1,5 +1,9 @@
 Revision history for Scalar-IfDefined
 
+{{ $NEXT }}
+
+        - Converted to Dist::Zilla
+
 0.01    Date/time
         First version, released on an unsuspecting world.
 
