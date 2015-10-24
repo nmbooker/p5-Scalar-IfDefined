@@ -147,6 +147,9 @@ L<https://github.com/nmbooker/p5-Scalar-IfDefined/issues>
 
 =head1 ACKNOWLEDGEMENTS
 
+=head2 Alastair McGowan-Douglas (ALTREUS)
+
+For developing the C<$ifdef> (coderef) form.
 
 =head1 LICENSE AND COPYRIGHT
 
