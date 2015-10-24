@@ -157,7 +157,7 @@ For developing the C<$ifdef> (coderef) form.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2014 Nick Booker.
+Copyright (C) 2015 Nick Booker
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
