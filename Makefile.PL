@@ -5,7 +5,7 @@ all_from 'lib/Scalar/IfDefined.pm';
 author   q{Nick Booker <NMBooker@gmail.com>};
 license  'perl';
 
-build_requires 'Test::More';
+build_requires 'Test::Most';
 
 auto_install;
 

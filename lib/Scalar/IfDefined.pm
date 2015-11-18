@@ -127,7 +127,11 @@ our $ifdef = sub {
 
     return undef if not defined $obj;
 
-    return $obj->$method(@args)   if blessed $obj or reftype $method eq 'CODE';
+    return $obj->$method(@args)   if blessed $obj;
+    
+    my $methtype = reftype($method);
+    return $obj->$method(@args)   if defined($methtype) and $methtype eq 'CODE';
+    
     return $obj->[$method]        if reftype $obj eq 'ARRAY';
     return $obj->{$method}        if reftype $obj eq 'HASH';
     return $obj->($method, @args) if reftype $obj eq 'CODE';
