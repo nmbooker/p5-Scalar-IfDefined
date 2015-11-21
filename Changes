@@ -2,10 +2,14 @@ Revision history for Scalar-IfDefined
 
 {{ $NEXT }}
 
+0.08      2015-11-21 17:07:45+00:00 Europe/London
+
+   - Fix github issue #8
+
 0.07      2015-11-21 16:54:06+00:00 Europe/London
 
-  - Converted to Dist::Zilla
+    - Converted to Dist::Zilla
 
 0.01    Date/time
-  First version, released on an unsuspecting world.
+    First version, released on an unsuspecting world.
 
