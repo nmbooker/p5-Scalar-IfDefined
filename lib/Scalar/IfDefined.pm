@@ -15,7 +15,7 @@ Scalar::IfDefined - Apply block to scalar depending on if it's defined.
 
 =cut
 
-our $VERSION = '0.06';
+our $VERSION = '0.08';
 
 =head1 SYNOPSIS
 
