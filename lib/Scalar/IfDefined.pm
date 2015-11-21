@@ -13,13 +13,9 @@ our @EXPORT_OK = qw/ifdef $ifdef/;
 
 Scalar::IfDefined - Apply block to scalar depending on if it's defined.
 
-=head1 VERSION
-
-Version 0.04
-
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
