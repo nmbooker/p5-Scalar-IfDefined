@@ -7,7 +7,7 @@ use warnings;
 use Scalar::Util qw/blessed reftype/;
 
 use Exporter 'import';
-our @EXPORT_OK = qw/ifdef $ifdef/;
+our @EXPORT_OK = qw/ifdef $ifdef lifdef/;
 
 =head1 NAME
 
@@ -71,9 +71,32 @@ the value passed in, and the result of the block is returned.
 =cut
 
 sub ifdef(&$) {
-    my ($block, $scalar) = @_;
+    scalar &lifdef;
+}
 
-    return $scalar if not defined $scalar;
+=head2 lifdef
+
+Like C<ifdef>, except returns the empty list. In scalar context, therefore, this
+works identically to C<ifdef>, but when in a list (e.g. an argument list or
+hashref constructor), it will return zero values if the argument was undef.
+
+    # Creates { key => $some_value }, or { undef } and warnings:
+    # Odd number of elements in anonymous hash
+    # Use of uninitialized value in anonymous hash
+    my $href = {
+        ifdef { key => $_ } $some_value
+    };
+
+    # Creates { key => value }, or {}
+    my $href = {
+        lifdef { key => $_ } $some_value
+    };
+
+=cut
+
+sub lifdef (&$) {
+    my ($block, $scalar) = @_;
+    return if not defined $scalar;
     return $block->($scalar) for $scalar;
 }
 
