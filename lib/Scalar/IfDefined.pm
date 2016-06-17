@@ -1,5 +1,7 @@
 package Scalar::IfDefined;
 
+# ABSTRACT: Apply function to scalar if it's defined
+
 use 5.006;
 use strict;
 use warnings;
