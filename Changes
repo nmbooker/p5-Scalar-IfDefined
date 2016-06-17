@@ -2,6 +2,8 @@ Revision history for Scalar-IfDefined
 
 {{ $NEXT }}
 
+   - Initial attempt at integrating with Travis
+
 0.09      2016-01-20 15:36:41+00:00 Europe/London
 
    - Merged in lifdef contribution from ALTREUS (Pull Request #10) - thanks
